@@ -5,10 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class ItemTest {
 
@@ -75,9 +72,9 @@ public class ItemTest {
         hashMap.put(item1, 5);
         hashMap.put(item2, 10);
         for(Map.Entry<Item, Integer> entry: hashMap.entrySet()) {
-            Item i = entry.getKey();
-            if(i.equals(item1)) {
-                hashMap.remove(i);
+            Integer value = entry.getValue();
+            if(value == 5) {
+                hashMap.remove(entry.getKey());
             }
         }
     }
@@ -90,13 +87,55 @@ public class ItemTest {
         hashMap.put(item2, 10);
         for(Iterator<Map.Entry<Item, Integer>> it = hashMap.entrySet().iterator(); it.hasNext();) {
             Map.Entry<Item, Integer> entry = it.next();
-            Item i = entry.getKey();
-            if(i.equals(item1)) {
+            Integer value = entry.getValue();
+            if(value == 5) {
                 it.remove();
-                System.out.println("Item1 safely removed from HashMap");
+                System.out.println("Item with value 5 safely removed from HashMap");
             }
         }
     }
 
+    @Test
+    public void ExceptionWithHashtableTest() {
+        Hashtable<Item, Integer> hashtable = new Hashtable<Item, Integer>();
+        hashtable.put(item, 10);
+        hashtable.put(item1, 5);
+        hashtable.put(item2, 10);
+        Enumeration<Item> en = hashtable.keys();
+        while(en.hasMoreElements()) {
+            Item key = en.nextElement();
+            Integer value = hashtable.get(key);
+            if(key.equals(item)) {
+                hashtable.remove(key);
+                System.out.println("Item safely removed from Hashtable");
+            }
+        }
+//        for(Map.Entry<Item, Integer> entry: hashtable.entrySet()) {
+//            Integer value = entry.getValue();
+//            System.out.println("sadsdsfs" + value);
+//            if(value == 5) {
+//                System.out.println("dhsdshf");
+//                hashtable.remove(entry.getKey());
+//                System.out.println("Item with value 5 safely removed from Hashtable");
+//            }
+//        }
+    }
 
+    @Test
+    public void NullCheckInHashMapTest() {
+        HashMap<Item, Integer> hashMap = new HashMap<Item, Integer>();
+        hashMap.put(item, 10);
+        hashMap.put(item1, 5);
+        hashMap.put(null, null);
+        System.out.println("Null key "+ hashMap.get(null));
+    }
+
+    @Test
+    public void NullCheckInHashtableTest() {
+        Hashtable<Item, Integer> hashtable = new Hashtable<Item, Integer>();
+        hashtable.put(item, 10);
+        hashtable.put(item1, 5);
+        hashtable.put(null, null);
+        System.out.println("Null key "+ hashtable.get(null));
+    }
 }
